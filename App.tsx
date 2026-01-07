@@ -4,6 +4,7 @@ import { COURSE_MODULES } from './constants';
 import { UserProgress, Lesson } from './types';
 import CourseCard from './components/CourseCard';
 import LessonViewer from './components/LessonViewer';
+import RippleButton from './components/RippleButton';
 
 const App: React.FC = () => {
   const [progress, setProgress] = useState<UserProgress>(() => {
@@ -96,13 +97,13 @@ const App: React.FC = () => {
             </h1>
           </div>
           <div className="flex items-center space-x-3">
-            <button 
+            <RippleButton
               onClick={handleContinueLearning}
-              className="hidden sm:flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-all active:scale-95"
+              className="hidden sm:flex items-center space-x-2 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white px-4 py-2 rounded-lg transition-all active:scale-95 shadow-md hover:shadow-lg"
             >
               <i className="fa-solid fa-play text-xs"></i>
               <span className="text-sm font-bold">继续学习</span>
-            </button>
+            </RippleButton>
             <div className="hidden sm:flex flex-col items-end">
               <span className="text-xs text-slate-500 font-medium">学习进度</span>
               <div className="w-32 h-1.5 bg-slate-100 rounded-full mt-1 overflow-hidden">
@@ -119,23 +120,23 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <main className="max-w-6xl mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Sidebar - Course List */}
-          <aside className="lg:col-span-4 space-y-8 order-2 lg:order-1">
+          <aside className="lg:col-span-4 space-y-12 order-2 lg:order-1">
             {COURSE_MODULES.map((module, idx) => (
-              <div key={module.stage} className="space-y-3">
-                <div className="flex items-center space-x-2 px-1">
-                  <span className="bg-indigo-100 text-indigo-700 w-6 h-6 rounded flex items-center justify-center text-xs font-bold">
+              <div key={module.stage} className={`space-y-4 animate-slideUp stagger-${idx + 1}`}>
+                <div className="flex items-center space-x-3 px-1">
+                  <span className="bg-gradient-to-br from-indigo-500 to-indigo-600 text-white w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold shadow-md hover:scale-110 transition-transform">
                     {idx + 1}
                   </span>
                   <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest">
                     {module.stage}
                   </h2>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {module.lessons.map((lesson, lessonIdx) => (
-                    <div key={lesson.id} id={`lesson-${lesson.id}`}>
+                    <div key={lesson.id} id={`lesson-${lesson.id}`} className={`animate-scaleIn stagger-${(lessonIdx % 5) + 1}`}>
                       <CourseCard 
                         lesson={lesson}
                         isCompleted={progress.completedLessons.includes(lesson.id)}
@@ -144,7 +145,7 @@ const App: React.FC = () => {
                         index={lessonIdx}
                       />
                       {isMobile && activeLesson?.id === lesson.id && (
-                        <div className="mt-4">
+                        <div className="mt-5 animate-fadeIn">
                           <LessonViewer 
                             lesson={activeLesson} 
                             onComplete={(id) => handleComplete(id, false)}
@@ -158,8 +159,8 @@ const App: React.FC = () => {
             ))}
 
             {/* Motivation Card */}
-            <div className="bg-white p-6 rounded-2xl border border-dashed border-slate-300 flex flex-col items-center text-center">
-              <div className="w-16 h-16 bg-yellow-50 text-yellow-500 rounded-full flex items-center justify-center text-2xl mb-4">
+            <div className="bg-white p-6 rounded-2xl border border-dashed border-slate-300 flex flex-col items-center text-center animate-bounce hover:scale-105 transition-transform">
+              <div className="w-16 h-16 bg-gradient-to-br from-yellow-50 to-yellow-100 text-yellow-500 rounded-full flex items-center justify-center text-2xl mb-4 shadow-md hover:scale-110 transition-transform">
                 <i className="fa-solid fa-gem"></i>
               </div>
               <h3 className="font-bold text-slate-800">成就勋章待解锁</h3>

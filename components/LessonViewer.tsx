@@ -1,7 +1,7 @@
-
 import React from 'react';
 import { Lesson } from '../types';
 import * as Visuals from './Visuals';
+import RippleButton from './RippleButton';
 
 interface LessonViewerProps {
   lesson: Lesson;
@@ -70,20 +70,20 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onComplete }) => {
   };
 
   return (
-    <div className="space-y-6 animate-fadeIn pb-12">
+    <div className="space-y-8 animate-fadeIn pb-16">
       {/* 课程正文 */}
-      <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+      <div className="bg-white p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
-            <div className="w-12 h-12 bg-indigo-50 text-indigo-500 rounded-xl flex items-center justify-center mr-4 text-xl">
+            <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-indigo-600 text-white rounded-2xl flex items-center justify-center mr-4 text-2xl shadow-lg">
               <i className={`fa-solid ${lesson.icon}`}></i>
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-slate-800 leading-tight">
+              <h2 className="text-xl md:text-2xl font-bold text-slate-800 leading-tight">
                 {lesson.title}
               </h2>
-              <div className="flex items-center space-x-2 mt-1">
-                <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-tighter bg-indigo-50 px-2 py-0.5 rounded">
+              <div className="flex items-center space-x-2 mt-1.5">
+                <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-wider bg-indigo-50 px-2.5 py-1 rounded-full">
                   约 {lesson.duration}
                 </span>
                 <span className="text-[10px] text-slate-400">专家实战课系列</span>
@@ -93,24 +93,24 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onComplete }) => {
         </div>
         
         <div className="prose prose-indigo max-w-none">
-          <div className="text-lg text-slate-600 leading-relaxed mb-6 whitespace-pre-wrap font-light">
+          <div className="text-base md:text-lg text-slate-600 leading-relaxed md:leading-loose mb-6 whitespace-pre-wrap font-normal">
             {lesson.content}
           </div>
         </div>
 
         {/* 专家寄语 */}
         {lesson.expertTip && (
-          <div className="bg-amber-50 border-l-4 border-amber-400 p-4 mb-6 rounded-r-xl">
-            <div className="flex items-center text-amber-800 font-bold text-sm mb-1">
+          <div className="bg-gradient-to-br from-amber-50 to-amber-100 border-l-4 border-amber-400 p-5 mb-6 rounded-r-2xl">
+            <div className="flex items-center text-amber-800 font-bold text-sm mb-2">
               <i className="fa-solid fa-user-tie mr-2"></i> 专家避坑指南
             </div>
-            <p className="text-sm text-amber-700 italic">{lesson.expertTip}</p>
+            <p className="text-sm text-amber-700 italic leading-relaxed">{lesson.expertTip}</p>
           </div>
         )}
 
         {/* 动态可视化示意图 */}
         {lesson.visualType && (
-          <div className="my-10 bg-slate-50/50 p-6 rounded-3xl border border-slate-100">
+          <div className="my-10 bg-gradient-to-br from-slate-50 to-indigo-50/30 p-6 md:p-8 rounded-3xl border border-slate-100">
             <div className="flex items-center justify-center space-x-2 text-slate-400 text-[10px] mb-4 font-bold uppercase tracking-[0.2em]">
               <span className="w-6 h-px bg-slate-200"></span>
               <span>Visual Insight · 深度图解</span>
@@ -123,11 +123,11 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onComplete }) => {
         {/* 核心术语词典 */}
         <div className="mt-8 border-t border-slate-100 pt-8">
           <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.3em] mb-6 flex items-center">
-            <i className="fa-solid fa-layer-group mr-2 text-indigo-300"></i> 专业术语表
+            <i className="fa-solid fa-layer-group mr-2 text-indigo-400"></i> 专业术语表
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {lesson.keyTerms.map((item, idx) => (
-              <div key={idx} className="bg-white p-5 rounded-2xl border border-slate-100 hover:border-indigo-100 transition-all group hover:shadow-lg hover:shadow-indigo-50/50">
+              <div key={idx} className="bg-white p-5 rounded-2xl border border-slate-100 hover:border-indigo-200 transition-all group hover:shadow-lg hover:shadow-indigo-50/50 active:scale-[0.98]">
                 <div className="font-bold text-slate-800 mb-1 group-hover:text-indigo-600 transition-colors flex items-center">
                   <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full mr-2"></div>
                   {item.term}
@@ -140,32 +140,34 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onComplete }) => {
       </div>
 
       {/* 类比模块 */}
-      <div className="bg-slate-900 p-10 rounded-3xl text-white shadow-2xl relative overflow-hidden group">
+      <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-8 md:p-10 rounded-3xl text-white shadow-2xl relative overflow-hidden group">
         <div className="relative z-10">
-          <div className="text-indigo-400 text-[10px] font-bold tracking-widest uppercase mb-4">大白话类比</div>
-          <p className="text-indigo-50 text-2xl leading-snug font-medium">
-            “{lesson.analogy}”
+          <div className="text-indigo-400 text-[10px] font-bold tracking-widest uppercase mb-4 flex items-center">
+            <i className="fa-solid fa-lightbulb mr-2"></i> 大白话类比
+          </div>
+          <p className="text-indigo-50 text-xl md:text-2xl leading-snug font-medium">
+            "{lesson.analogy}"
           </p>
         </div>
       </div>
 
       {/* 实践任务 */}
-      <div className="bg-white border border-slate-200 p-10 rounded-3xl shadow-sm">
+      <div className="bg-white border border-slate-200 p-6 md:p-10 rounded-3xl shadow-lg">
         <div className="flex items-center space-x-4 mb-8">
-          <div className="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center text-xl">
+          <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white rounded-2xl flex items-center justify-center text-xl shadow-lg">
             <i className="fa-solid fa-vial"></i>
           </div>
           <h3 className="text-slate-900 font-black text-xl tracking-tight">实战演练任务</h3>
         </div>
-        <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100 text-slate-600 leading-relaxed mb-8">
+        <div className="bg-gradient-to-br from-slate-50 to-slate-100 p-6 md:p-8 rounded-2xl border border-slate-100 text-slate-600 leading-relaxed mb-8">
           {lesson.practicalTask}
         </div>
-        <button 
+        <RippleButton 
           onClick={() => onComplete(lesson.id)}
-          className="w-full bg-slate-900 hover:bg-black text-white font-bold py-5 rounded-2xl transition-all shadow-xl active:scale-[0.98] flex items-center justify-center text-lg tracking-tight"
+          className="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-bold py-5 md:py-6 rounded-2xl transition-all shadow-xl hover:shadow-2xl active:scale-[0.98] flex items-center justify-center text-lg tracking-tight"
         >
           我已掌握并完成任务 <i className="fa-solid fa-arrow-right ml-3 text-xs opacity-50"></i>
-        </button>
+        </RippleButton>
       </div>
     </div>
   );
