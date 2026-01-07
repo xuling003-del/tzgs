@@ -83,7 +83,10 @@ export type VisualType =
   | 'system-optimization'
   | 'quant-basics'
   | 'factor-model'
-  | 'algorithm-trading';
+  | 'algorithm-trading'
+  | 'financial-ratios'
+  | 'fraud-detection'
+  | 'industry-comparison';
 
 export interface Lesson {
   id: string;

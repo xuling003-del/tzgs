@@ -125,6 +125,9 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onComplete, onPrevi
     switch (lesson.visualType) {
       case 'cognitive-bias': return <Visuals.CognitiveBiasVisual />;
       case 'three-statements': return <Visuals.ThreeStatementsVisual />;
+      case 'financial-ratios': return <Visuals.FinancialRatiosVisual />;
+      case 'fraud-detection': return <Visuals.FraudDetectionVisual />;
+      case 'industry-comparison': return <Visuals.IndustryComparisonVisual />;
       case 'interest-rate-seesaw': return <Visuals.InterestRateSeesawVisual />;
       case 'risk-reward-ratio': return <Visuals.RiskRewardRatioVisual />;
       case 'position': return <Visuals.PositionVisual />;

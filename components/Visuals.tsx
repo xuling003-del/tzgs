@@ -433,6 +433,202 @@ export const ThreeStatementsVisual = () => (
   </div>
 );
 
+// --- 财报：关键财务指标 ---
+export const FinancialRatiosVisual = () => (
+  <div className="bg-white p-6 rounded-2xl my-6 border-2 border-blue-50">
+    <div className="text-sm font-bold text-blue-700 mb-4">核心财务指标速查</div>
+    <div className="grid grid-cols-2 gap-3">
+      <div className="p-3 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border border-green-100">
+        <div className="flex items-center space-x-2 mb-2">
+          <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold">
+            <i className="fa-solid fa-percent"></i>
+          </div>
+          <div className="text-xs font-bold text-green-700">净利率</div>
+        </div>
+        <div className="text-[9px] text-slate-600 space-y-1">
+          <div>公式：净利润 / 营业收入</div>
+          <div>优秀：{'>'} 20%</div>
+          <div>正常：10%-20%</div>
+        </div>
+      </div>
+      <div className="p-3 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
+        <div className="flex items-center space-x-2 mb-2">
+          <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold">
+            <i className="fa-solid fa-chart-line"></i>
+          </div>
+          <div className="text-xs font-bold text-blue-700">ROE</div>
+        </div>
+        <div className="text-[9px] text-slate-600 space-y-1">
+          <div>公式：净利润 / 所有者权益</div>
+          <div>优秀：{'>'} 20%</div>
+          <div>正常：15%-20%</div>
+        </div>
+      </div>
+      <div className="p-3 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl border border-purple-100">
+        <div className="flex items-center space-x-2 mb-2">
+          <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold">
+            <i className="fa-solid fa-scale-balanced"></i>
+          </div>
+          <div className="text-xs font-bold text-purple-700">资产负债率</div>
+        </div>
+        <div className="text-[9px] text-slate-600 space-y-1">
+          <div>公式：总负债 / 总资产</div>
+          <div>稳健：{'<'} 40%</div>
+          <div>合理：40%-60%</div>
+        </div>
+      </div>
+      <div className="p-3 bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl border border-amber-100">
+        <div className="flex items-center space-x-2 mb-2">
+          <div className="w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold">
+            <i className="fa-solid fa-tag"></i>
+          </div>
+          <div className="text-xs font-bold text-amber-700">PE (市盈率)</div>
+        </div>
+        <div className="text-[9px] text-slate-600 space-y-1">
+          <div>公式：股价 / 每股收益</div>
+          <div>低估：{'<'} 15</div>
+          <div>合理：15-30</div>
+        </div>
+      </div>
+    </div>
+    <div className="mt-4 p-3 bg-slate-50 rounded-lg border border-slate-200">
+      <div className="text-[9px] text-slate-600 flex items-center">
+        <i className="fa-solid fa-lightbulb text-amber-500 mr-2"></i>
+        <span>提示：不同行业的指标标准不同，请与行业平均水平对比</span>
+      </div>
+    </div>
+  </div>
+);
+
+// --- 财报：财务造假识别 ---
+export const FraudDetectionVisual = () => (
+  <div className="bg-white p-6 rounded-2xl my-6 border-2 border-red-50">
+    <div className="text-sm font-bold text-red-700 mb-4">财务造假五大预警信号</div>
+    <div className="space-y-3">
+      <div className="p-3 bg-gradient-to-r from-red-50 to-orange-50 rounded-xl border border-red-100">
+        <div className="flex items-center space-x-2 mb-2">
+          <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold">1</div>
+          <div className="text-xs font-bold text-red-700">利润与现金流不匹配</div>
+        </div>
+        <div className="text-[9px] text-slate-600 space-y-1">
+          <div>• 净利润增长，但经营现金流为负</div>
+          <div>• 经营现金流 / 净利润 {'<'} 0.8</div>
+          <div>• 应收账款增长速度 {'>'} 营业收入增长速度</div>
+        </div>
+      </div>
+      <div className="p-3 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-xl border border-amber-100">
+        <div className="flex items-center space-x-2 mb-2">
+          <div className="w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold">2</div>
+          <div className="text-xs font-bold text-amber-700">财务指标异常</div>
+        </div>
+        <div className="text-[9px] text-slate-600 space-y-1">
+          <div>• 毛利率远高于行业平均水平</div>
+          <div>• 存货周转率异常下降</div>
+          <div>• 应收账款周转率异常下降</div>
+        </div>
+      </div>
+      <div className="p-3 bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl border border-orange-100">
+        <div className="flex items-center space-x-2 mb-2">
+          <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold">3</div>
+          <div className="text-xs font-bold text-orange-700">会计政策频繁变更</div>
+        </div>
+        <div className="text-[9px] text-slate-600 space-y-1">
+          <div>• 频繁变更会计估计</div>
+          <div>• 变更收入确认政策</div>
+          <div>• 频繁进行资产减值测试</div>
+        </div>
+      </div>
+      <div className="p-3 bg-gradient-to-r from-yellow-50 to-lime-50 rounded-xl border border-yellow-100">
+        <div className="flex items-center space-x-2 mb-2">
+          <div className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold">4</div>
+          <div className="text-xs font-bold text-yellow-700">关联交易异常</div>
+        </div>
+        <div className="text-[9px] text-slate-600 space-y-1">
+          <div>• 与关联方交易金额巨大</div>
+          <div>• 关联交易价格异常</div>
+          <div>• 关联方数量众多</div>
+        </div>
+      </div>
+      <div className="p-3 bg-gradient-to-r from-lime-50 to-green-50 rounded-xl border border-lime-100">
+        <div className="flex items-center space-x-2 mb-2">
+          <div className="w-6 h-6 bg-lime-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold">5</div>
+          <div className="text-xs font-bold text-lime-700">审计意见异常</div>
+        </div>
+        <div className="text-[9px] text-slate-600 space-y-1">
+          <div>• 审计师频繁更换</div>
+          <div>• 审计意见为"保留意见"或"无法表示意见"</div>
+          <div>• 审计费用异常增长</div>
+        </div>
+      </div>
+    </div>
+    <div className="mt-4 p-3 bg-red-50 rounded-lg border border-red-200">
+      <div className="text-[9px] text-red-700 flex items-center">
+        <i className="fa-solid fa-triangle-exclamation text-red-500 mr-2"></i>
+        <span>警示：发现以上任何一个信号，请立即远离该股票！</span>
+      </div>
+    </div>
+  </div>
+);
+
+// --- 财报：行业对比分析 ---
+export const IndustryComparisonVisual = () => (
+  <div className="bg-white p-6 rounded-2xl my-6 border-2 border-blue-50">
+    <div className="text-sm font-bold text-blue-700 mb-4">行业对比分析四步法</div>
+    <div className="space-y-4">
+      <div className="flex items-start space-x-3">
+        <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">1</div>
+        <div className="flex-1">
+          <div className="text-xs font-bold text-blue-700 mb-1">选择同行业公司</div>
+          <div className="text-[9px] text-slate-600 space-y-1">
+            <div>• 选择主营业务相似的公司</div>
+            <div>• 选择规模相当的公司</div>
+            <div>• 选择上市时间相近的公司</div>
+          </div>
+        </div>
+      </div>
+      <div className="flex items-start space-x-3">
+        <div className="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">2</div>
+        <div className="flex-1">
+          <div className="text-xs font-bold text-indigo-700 mb-1">收集财务数据</div>
+          <div className="text-[9px] text-slate-600 space-y-1">
+            <div>• 从年报、季报中获取财务数据</div>
+            <div>• 从交易软件中获取行业平均数据</div>
+            <div>• 从财经网站获取行业研究报告</div>
+          </div>
+        </div>
+      </div>
+      <div className="flex items-start space-x-3">
+        <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">3</div>
+        <div className="flex-1">
+          <div className="text-xs font-bold text-purple-700 mb-1">计算行业平均值</div>
+          <div className="text-[9px] text-slate-600 space-y-1">
+            <div>• 计算算术平均值</div>
+            <div>• 计算中位数</div>
+            <div>• 计算加权平均值</div>
+          </div>
+        </div>
+      </div>
+      <div className="flex items-start space-x-3">
+        <div className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">4</div>
+        <div className="flex-1">
+          <div className="text-xs font-bold text-pink-700 mb-1">对比分析</div>
+          <div className="text-[9px] text-slate-600 space-y-1">
+            <div>• 对比绝对数值</div>
+            <div>• 对比变化趋势</div>
+            <div>• 对比相对位置</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+      <div className="text-[9px] text-blue-700 flex items-center">
+        <i className="fa-solid fa-lightbulb text-blue-500 mr-2"></i>
+        <span>提示：行业对比能帮你发现被低估的"金子"，避开被高估的"泡沫"！</span>
+      </div>
+    </div>
+  </div>
+);
+
 // --- 宏观：利率跷跷板 ---
 export const InterestRateSeesawVisual = () => (
   <div className="bg-slate-50 p-8 rounded-2xl my-6 border border-slate-200">
