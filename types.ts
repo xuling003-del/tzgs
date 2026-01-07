@@ -1,17 +1,17 @@
 
 export enum CourseStage {
-  BASICS = '股市通行证',
   PSYCHOLOGY = '心态与思维',
-  TECHNICAL = '实战技术课',
+  BASICS = '股市通行证',
   FINANCIALS = '财报门道',
   MACRO = '宏观与行业',
+  TECHNICAL = '实战技术课',
+  ADVANCED = '高级实战课',
+  RISK = '风险控制与心态管理',
   STRATEGY = '交易系统',
-  RISK = '风险管理',
-  FUNDS = '基金与ETF',
-  BONDS = '债券与固收',
-  SECTOR = '行业深度分析',
-  WEALTH = '终身财富管理',
-  ADVANCED = '进阶专题'
+  RISK_MANAGEMENT = '风险管理',
+  FUND_ETF = '基金与ETF投资',
+  TRADING_SYSTEM = '交易系统构建',
+  QUANTITATIVE = '量化投资入门'
 }
 
 export interface TermDefinition {
@@ -20,27 +20,70 @@ export interface TermDefinition {
 }
 
 export type VisualType = 
-  | 'cognitive-bias' 
-  | 'order-book' 
-  | 'kline-quiz' 
+  | 'position' 
+  | 'kline' 
+  | 'shorting' 
+  | 'quant' 
+  | 'asset-allocation' 
+  | 'volume-price' 
+  | 'market-cycle' 
+  | 'fundamental'
+  | 'market-sectors'
+  | 'order-types'
+  | 'dividend-logic'
   | 'ma-lines'
+  | 'macd-logic'
+  | 'st-risk'
+  | 'cognitive-bias'
   | 'three-statements'
-  | 'pe-calculator'
   | 'interest-rate-seesaw'
-  | 'position-simulator'
-  | 'risk-meter'
-  | 'fee-calc'
-  | 'volume-chart'
-  | 'macd-viz'
-  | 'moat-radar'
-  | 'kdj-rsi-viz'
-  | 'merrill-clock'
-  | 'portfolio-pie'
-  | 'boll-bands'
-  | 'compounding-viz'
-  | 'sector-map-viz'
-  | 'grid-trading-viz'
-  | 'rebalance-viz';
+  | 'risk-reward-ratio'
+  | 'stock-types'
+  | 'trading-mechanism'
+  | 'account-permissions'
+  | 'fee-structure'
+  | 'market-participants'
+  | 'kline-patterns'
+  | 'volume-analysis'
+  | 'macd-indicator'
+  | 'kdj-indicator'
+  | 'rsi-indicator'
+  | 'trend-support'
+  | 'pattern-analysis'
+  | 'bollinger-bands'
+  | 'wave-theory'
+  | 'short-selling'
+  | 'options-basics'
+  | 'futures-contracts'
+  | 'hedging-strategies'
+  | 'arbitrage-opportunities'
+  | 'sector-rotation'
+  | 'value-investing'
+  | 'growth-investing'
+  | 'swing-trading'
+  | 'position-sizing'
+  | 'stop-loss'
+  | 'risk-control'
+  | 'position-management'
+  | 'psychological-bias'
+  | 'emotional-control'
+  | 'trading-discipline'
+  | 'money-management'
+  | 'trading-journal'
+  | 'portfolio-theory'
+  | 'risk-types'
+  | 'risk-control-tools'
+  | 'index-fund'
+  | 'etf-investment'
+  | 'active-fund'
+  | 'fund-allocation'
+  | 'trading-framework'
+  | 'entry-exit-rules'
+  | 'backtesting'
+  | 'system-optimization'
+  | 'quant-basics'
+  | 'factor-model'
+  | 'algorithm-trading';
 
 export interface Lesson {
   id: string;
