@@ -2,13 +2,125 @@ import React from 'react';
 import { Lesson } from '../types';
 import * as Visuals from './Visuals';
 import RippleButton from './RippleButton';
+import { COURSE_MODULES } from '../constants';
+
+const parseMarkdown = (text: string): React.ReactNode => {
+  if (!text) return null;
+
+  const lines = text.split('\n');
+  const elements: React.ReactNode[] = [];
+
+  let currentList: { type: 'ul' | 'ol'; items: string[] } | null = null;
+  let inCodeBlock = false;
+  let codeLines: string[] = [];
+
+  const flushList = () => {
+    if (currentList && currentList.items.length > 0) {
+      if (currentList.type === 'ul') {
+        elements.push(
+          <ul key={`list-${elements.length}`} className="list-disc list-inside space-y-2 my-4 text-slate-600">
+            {currentList.items.map((item, idx) => (
+              <li key={idx} className="ml-4" dangerouslySetInnerHTML={{ __html: item }}></li>
+            ))}
+          </ul>
+        );
+      } else {
+        elements.push(
+          <ol key={`list-${elements.length}`} className="list-decimal list-inside space-y-2 my-4 text-slate-600">
+            {currentList.items.map((item, idx) => (
+              <li key={idx} className="ml-4" dangerouslySetInnerHTML={{ __html: item }}></li>
+            ))}
+          </ol>
+        );
+      }
+      currentList = null;
+    }
+  };
+
+  const flushCodeBlock = () => {
+    if (codeLines.length > 0) {
+      elements.push(
+        <div key={`code-${elements.length}`} className="bg-slate-900 text-slate-100 p-4 rounded-lg my-4 font-mono text-sm overflow-x-auto">
+          {codeLines.map((line, idx) => (
+            <div key={idx} className="text-slate-300">{line}</div>
+          ))}
+        </div>
+      );
+      codeLines = [];
+    }
+  };
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    if (line.trim().startsWith('```')) {
+      flushList();
+      inCodeBlock = !inCodeBlock;
+      continue;
+    }
+
+    if (inCodeBlock) {
+      codeLines.push(line);
+      continue;
+    }
+
+    flushCodeBlock();
+
+    if (line.trim().startsWith('- ')) {
+      if (!currentList || currentList.type !== 'ul') {
+        flushList();
+        currentList = { type: 'ul', items: [] };
+      }
+      const listItemText = line.trim().substring(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      currentList.items.push(listItemText);
+    } else if (line.trim().match(/^\d+\./)) {
+      if (!currentList || currentList.type !== 'ol') {
+        flushList();
+        currentList = { type: 'ol', items: [] };
+      }
+      const listItemText = line.trim().replace(/^\d+\.\s*/, '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      currentList.items.push(listItemText);
+    } else {
+      flushList();
+
+      if (line.trim() === '') {
+        continue;
+      }
+
+      const processedLine = line
+        .replace(/\*\*(.*?)\*\*/g, '<strong className="font-bold text-slate-800">$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em className="italic">$1</em>');
+
+      if (processedLine.trim().match(/^[A-Z\u4e00-\u9fa5]+[：:]/)) {
+        elements.push(
+          <h4 key={`heading-${i}`} className="text-lg font-bold text-slate-800 mt-6 mb-3" dangerouslySetInnerHTML={{ __html: processedLine }}></h4>
+        );
+      } else {
+        elements.push(
+          <p key={`para-${i}`} className="text-base md:text-lg text-slate-600 leading-relaxed md:leading-loose mb-4" dangerouslySetInnerHTML={{ __html: processedLine }}></p>
+        );
+      }
+    }
+  }
+
+  flushList();
+  flushCodeBlock();
+
+  return elements;
+};
 
 interface LessonViewerProps {
   lesson: Lesson;
   onComplete: (id: string) => void;
+  onPreviousLesson?: () => void;
+  onNextLesson?: () => void;
 }
 
-const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onComplete }) => {
+const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onComplete, onPreviousLesson, onNextLesson }) => {
+  const allLessons = COURSE_MODULES.flatMap(m => m.lessons);
+  const currentIndex = allLessons.findIndex(l => l.id === lesson.id);
+  const hasPrevious = currentIndex > 0;
+  const hasNext = currentIndex < allLessons.length - 1;
   const renderVisual = () => {
     switch (lesson.visualType) {
       case 'cognitive-bias': return <Visuals.CognitiveBiasVisual />;
@@ -93,9 +205,7 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onComplete }) => {
         </div>
         
         <div className="prose prose-indigo max-w-none">
-          <div className="text-base md:text-lg text-slate-600 leading-relaxed md:leading-loose mb-6 whitespace-pre-wrap font-normal">
-            {lesson.content}
-          </div>
+          {parseMarkdown(lesson.content)}
         </div>
 
         {/* 专家寄语 */}
@@ -169,6 +279,44 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onComplete }) => {
           我已掌握并完成任务 <i className="fa-solid fa-arrow-right ml-3 text-xs opacity-50"></i>
         </RippleButton>
       </div>
+
+      {/* 课程导航按钮 */}
+      {(onPreviousLesson || onNextLesson) && (
+        <div className="flex items-center justify-between bg-white p-4 rounded-2xl shadow-lg border border-slate-100">
+          <RippleButton
+            onClick={onPreviousLesson}
+            disabled={!hasPrevious}
+            className={`flex items-center space-x-2 px-5 py-3 rounded-xl font-bold transition-all shadow-md ${
+              hasPrevious
+                ? 'bg-white text-indigo-600 border-2 border-indigo-200 hover:border-indigo-300 hover:bg-indigo-50'
+                : 'bg-slate-100 text-slate-400 border-2 border-slate-200 cursor-not-allowed'
+            }`}
+          >
+            <i className="fa-solid fa-arrow-left"></i>
+            <span className="hidden sm:inline">上一课</span>
+          </RippleButton>
+          
+          <div className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-xl shadow-lg">
+            <i className="fa-solid fa-book-open text-xs"></i>
+            <span className="text-sm font-bold">
+              {currentIndex + 1} / {allLessons.length}
+            </span>
+          </div>
+          
+          <RippleButton
+            onClick={onNextLesson}
+            disabled={!hasNext}
+            className={`flex items-center space-x-2 px-5 py-3 rounded-xl font-bold transition-all shadow-md ${
+              hasNext
+                ? 'bg-gradient-to-r from-indigo-600 to-indigo-700 text-white hover:from-indigo-700 hover:to-indigo-800'
+                : 'bg-slate-100 text-slate-400 border-2 border-slate-200 cursor-not-allowed'
+            }`}
+          >
+            <span className="hidden sm:inline">下一课</span>
+            <i className="fa-solid fa-arrow-right"></i>
+          </RippleButton>
+        </div>
+      )}
     </div>
   );
 };
