@@ -7,9 +7,10 @@ interface CourseCardProps {
   isCompleted: boolean;
   isActive: boolean;
   onClick: () => void;
+  index: number;
 }
 
-const CourseCard: React.FC<CourseCardProps> = ({ lesson, isCompleted, isActive, onClick }) => {
+const CourseCard: React.FC<CourseCardProps> = ({ lesson, isCompleted, isActive, onClick, index }) => {
   return (
     <div 
       onClick={onClick}
@@ -22,10 +23,21 @@ const CourseCard: React.FC<CourseCardProps> = ({ lesson, isCompleted, isActive, 
       }`}
     >
       <div className="flex items-start space-x-4">
-        <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-xl shrink-0 ${
-          isActive ? 'bg-indigo-500 text-white' : 'bg-slate-100 text-slate-500'
-        }`}>
-          <i className={`fa-solid ${lesson.icon}`}></i>
+        <div className="relative shrink-0">
+          <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-xl ${
+            isActive ? 'bg-indigo-500 text-white' : 'bg-slate-100 text-slate-500'
+          }`}>
+            <i className={`fa-solid ${lesson.icon}`}></i>
+          </div>
+          <div className={`absolute -top-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
+            isActive 
+              ? 'bg-indigo-600 text-white' 
+              : isCompleted 
+                ? 'bg-green-500 text-white' 
+                : 'bg-slate-300 text-slate-600'
+          }`}>
+            {index + 1}
+          </div>
         </div>
         <div className="flex-1">
           <div className="flex items-center justify-between">

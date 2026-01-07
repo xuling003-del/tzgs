@@ -11,6 +11,8 @@ const App: React.FC = () => {
     return saved ? JSON.parse(saved) : { completedLessons: [], currentLessonId: 'f1' };
   });
 
+  const [isMobile, setIsMobile] = useState(false);
+
   const [activeLesson, setActiveLesson] = useState<Lesson | null>(() => {
     const id = progress.currentLessonId || 'f1';
     for (const mod of COURSE_MODULES) {
@@ -21,17 +23,44 @@ const App: React.FC = () => {
   });
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem('user_investment_progress', JSON.stringify(progress));
   }, [progress]);
 
   const handleLessonSelect = (lesson: Lesson) => {
     setActiveLesson(lesson);
     setProgress(prev => ({ ...prev, currentLessonId: lesson.id }));
-    // On mobile, maybe scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    if (isMobile) {
+      setTimeout(() => {
+        const element = document.getElementById(`lesson-${lesson.id}`);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
   };
 
-  const handleComplete = (id: string) => {
+  const handleContinueLearning = () => {
+    const currentLesson = COURSE_MODULES.flatMap(m => m.lessons).find(l => l.id === progress.currentLessonId);
+    if (currentLesson) {
+      setActiveLesson(currentLesson);
+      const element = document.getElementById(`lesson-${currentLesson.id}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  };
+
+  const handleComplete = (id: string, autoNext: boolean = true) => {
     if (!progress.completedLessons.includes(id)) {
       setProgress(prev => ({
         ...prev,
@@ -39,13 +68,14 @@ const App: React.FC = () => {
       }));
     }
     
-    // Auto suggest next lesson
-    const allLessons = COURSE_MODULES.flatMap(m => m.lessons);
-    const currentIndex = allLessons.findIndex(l => l.id === id);
-    if (currentIndex < allLessons.length - 1) {
-      const next = allLessons[currentIndex + 1];
-      setActiveLesson(next);
-      setProgress(prev => ({ ...prev, currentLessonId: next.id }));
+    if (autoNext) {
+      const allLessons = COURSE_MODULES.flatMap(m => m.lessons);
+      const currentIndex = allLessons.findIndex(l => l.id === id);
+      if (currentIndex < allLessons.length - 1) {
+        const next = allLessons[currentIndex + 1];
+        setActiveLesson(next);
+        setProgress(prev => ({ ...prev, currentLessonId: next.id }));
+      }
     }
   };
 
@@ -65,7 +95,14 @@ const App: React.FC = () => {
               财智启航 <span className="text-indigo-600 font-medium text-sm hidden sm:inline ml-2">职场新人系统投资课</span>
             </h1>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3">
+            <button 
+              onClick={handleContinueLearning}
+              className="hidden sm:flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-all active:scale-95"
+            >
+              <i className="fa-solid fa-play text-xs"></i>
+              <span className="text-sm font-bold">继续学习</span>
+            </button>
             <div className="hidden sm:flex flex-col items-end">
               <span className="text-xs text-slate-500 font-medium">学习进度</span>
               <div className="w-32 h-1.5 bg-slate-100 rounded-full mt-1 overflow-hidden">
@@ -97,14 +134,24 @@ const App: React.FC = () => {
                   </h2>
                 </div>
                 <div className="space-y-3">
-                  {module.lessons.map(lesson => (
-                    <CourseCard 
-                      key={lesson.id}
-                      lesson={lesson}
-                      isCompleted={progress.completedLessons.includes(lesson.id)}
-                      isActive={activeLesson?.id === lesson.id}
-                      onClick={() => handleLessonSelect(lesson)}
-                    />
+                  {module.lessons.map((lesson, lessonIdx) => (
+                    <div key={lesson.id} id={`lesson-${lesson.id}`}>
+                      <CourseCard 
+                        lesson={lesson}
+                        isCompleted={progress.completedLessons.includes(lesson.id)}
+                        isActive={activeLesson?.id === lesson.id}
+                        onClick={() => handleLessonSelect(lesson)}
+                        index={lessonIdx}
+                      />
+                      {isMobile && activeLesson?.id === lesson.id && (
+                        <div className="mt-4">
+                          <LessonViewer 
+                            lesson={activeLesson} 
+                            onComplete={(id) => handleComplete(id, false)}
+                          />
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>
@@ -116,24 +163,26 @@ const App: React.FC = () => {
                 <i className="fa-solid fa-gem"></i>
               </div>
               <h3 className="font-bold text-slate-800">成就勋章待解锁</h3>
-              <p className="text-sm text-slate-500 mt-2">完成所有课程，即可生成专属于你的“投资入场券”分析模型。</p>
+              <p className="text-sm text-slate-500 mt-2">完成所有课程，即可生成专属于你的"投资入场券"分析模型。</p>
             </div>
           </aside>
 
-          {/* Main Content - Lesson Viewer */}
-          <section className="lg:col-span-8 order-1 lg:order-2">
-            {activeLesson ? (
-              <LessonViewer 
-                lesson={activeLesson} 
-                onComplete={handleComplete}
-              />
-            ) : (
-              <div className="bg-white rounded-2xl h-96 flex flex-col items-center justify-center text-slate-400 border border-slate-100 shadow-sm">
-                <i className="fa-solid fa-book-open text-5xl mb-4 opacity-20"></i>
-                <p>请在左侧选择一个课程开始学习</p>
-              </div>
-            )}
-          </section>
+          {/* Main Content - Lesson Viewer (Desktop only) */}
+          {!isMobile && (
+            <section className="lg:col-span-8 order-1 lg:order-2">
+              {activeLesson ? (
+                <LessonViewer 
+                  lesson={activeLesson} 
+                  onComplete={handleComplete}
+                />
+              ) : (
+                <div className="bg-white rounded-2xl h-96 flex flex-col items-center justify-center text-slate-400 border border-slate-100 shadow-sm">
+                  <i className="fa-solid fa-book-open text-5xl mb-4 opacity-20"></i>
+                  <p>请在左侧选择一个课程开始学习</p>
+                </div>
+              )}
+            </section>
+          )}
         </div>
       </main>
 
@@ -151,8 +200,12 @@ const App: React.FC = () => {
             ></div>
           </div>
         </div>
-        <button className="bg-indigo-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg">
-          <i className="fa-solid fa-list-ul"></i>
+        <button 
+          onClick={handleContinueLearning}
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-full flex items-center space-x-2 shadow-lg transition-all active:scale-95"
+        >
+          <i className="fa-solid fa-play text-xs"></i>
+          <span className="text-sm font-bold">继续学习</span>
         </button>
       </div>
     </div>
