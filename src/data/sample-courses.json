@@ -1,0 +1,59 @@
+{
+  "courses": [
+    {
+      "id": "finance-basics-101",
+      "title": "理财投资基础",
+      "description": "学习理财投资的基本概念和策略",
+      "category": "finance",
+      "difficulty": "beginner",
+      "duration": 180,
+      "modules": [
+        {
+          "id": "intro-module",
+          "title": "理财概述",
+          "content": "理财是指对财务（主要是现金）进行管理，以实现财务的保值、增值...",
+          "type": "text",
+          "order": 1
+        },
+        {
+          "id": "budget-module",
+          "title": "预算规划",
+          "content": "预算规划是理财的第一步，需要明确收入和支出...",
+          "type": "text",
+          "order": 2
+        },
+        {
+          "id": "investment-module",
+          "title": "投资入门",
+          "content": "投资是实现财富增值的重要手段...",
+          "type": "text",
+          "order": 3
+        }
+      ]
+    },
+    {
+      "id": "stock-investing",
+      "title": "股票投资实战",
+      "description": "深入学习股票市场的投资策略和技巧",
+      "category": "investing",
+      "difficulty": "intermediate",
+      "duration": 240,
+      "modules": [
+        {
+          "id": "stock-basics",
+          "title": "股票基础",
+          "content": "股票是股份公司为筹集资金而发行给各个股东作为持股凭证并借以取得股息和红利的一种有价证券...",
+          "type": "text",
+          "order": 1
+        },
+        {
+          "id": "market-analysis",
+          "title": "市场分析",
+          "content": "技术分析和基本面分析是股票投资的两大分析方法...",
+          "type": "text",
+          "order": 2
+        }
+      ]
+    }
+  ]
+}

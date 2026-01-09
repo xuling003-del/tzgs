@@ -2,111 +2,106 @@ import React from 'react';
 import { Lesson } from '../types';
 import * as Visuals from './Visuals';
 import RippleButton from './RippleButton';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { COURSE_MODULES } from '../constants';
 
-const parseMarkdown = (text: string): React.ReactNode => {
-  if (!text) return null;
+const MarkdownRenderer = ({ content }: { content: string }) => {
+  if (!content) return null;
 
-  const lines = text.split('\n');
-  const elements: React.ReactNode[] = [];
-
-  let currentList: { type: 'ul' | 'ol'; items: string[] } | null = null;
-  let inCodeBlock = false;
-  let codeLines: string[] = [];
-
-  const flushList = () => {
-    if (currentList && currentList.items.length > 0) {
-      if (currentList.type === 'ul') {
-        elements.push(
-          <ul key={`list-${elements.length}`} className="list-disc list-inside space-y-2 my-4 text-slate-600">
-            {currentList.items.map((item, idx) => (
-              <li key={idx} className="ml-4" dangerouslySetInnerHTML={{ __html: item }}></li>
-            ))}
-          </ul>
-        );
-      } else {
-        elements.push(
-          <ol key={`list-${elements.length}`} className="list-decimal list-inside space-y-2 my-4 text-slate-600">
-            {currentList.items.map((item, idx) => (
-              <li key={idx} className="ml-4" dangerouslySetInnerHTML={{ __html: item }}></li>
-            ))}
-          </ol>
-        );
-      }
-      currentList = null;
-    }
-  };
-
-  const flushCodeBlock = () => {
-    if (codeLines.length > 0) {
-      elements.push(
-        <div key={`code-${elements.length}`} className="bg-slate-900 text-slate-100 p-4 rounded-lg my-4 font-mono text-sm overflow-x-auto">
-          {codeLines.map((line, idx) => (
-            <div key={idx} className="text-slate-300">{line}</div>
-          ))}
-        </div>
-      );
-      codeLines = [];
-    }
-  };
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-
-    if (line.trim().startsWith('```')) {
-      flushList();
-      inCodeBlock = !inCodeBlock;
-      continue;
-    }
-
-    if (inCodeBlock) {
-      codeLines.push(line);
-      continue;
-    }
-
-    flushCodeBlock();
-
-    if (line.trim().startsWith('- ')) {
-      if (!currentList || currentList.type !== 'ul') {
-        flushList();
-        currentList = { type: 'ul', items: [] };
-      }
-      const listItemText = line.trim().substring(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      currentList.items.push(listItemText);
-    } else if (line.trim().match(/^\d+\./)) {
-      if (!currentList || currentList.type !== 'ol') {
-        flushList();
-        currentList = { type: 'ol', items: [] };
-      }
-      const listItemText = line.trim().replace(/^\d+\.\s*/, '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      currentList.items.push(listItemText);
-    } else {
-      flushList();
-
-      if (line.trim() === '') {
-        continue;
-      }
-
-      const processedLine = line
-        .replace(/\*\*(.*?)\*\*/g, '<strong className="font-bold text-slate-800">$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em className="italic">$1</em>');
-
-      if (processedLine.trim().match(/^[A-Z\u4e00-\u9fa5]+[：:]/)) {
-        elements.push(
-          <h4 key={`heading-${i}`} className="text-lg font-bold text-slate-800 mt-6 mb-3" dangerouslySetInnerHTML={{ __html: processedLine }}></h4>
-        );
-      } else {
-        elements.push(
-          <p key={`para-${i}`} className="text-base md:text-lg text-slate-600 leading-relaxed md:leading-loose mb-4" dangerouslySetInnerHTML={{ __html: processedLine }}></p>
-        );
-      }
-    }
-  }
-
-  flushList();
-  flushCodeBlock();
-
-  return elements;
+  return (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      components={{
+        h1: ({ node, ...props }) => (
+          <h1 className="text-3xl font-bold text-slate-800 mt-8 mb-4 leading-tight" {...props} />
+        ),
+        h2: ({ node, ...props }) => (
+          <h2 className="text-2xl font-bold text-slate-800 mt-8 mb-4 leading-tight border-b border-slate-200 pb-2" {...props} />
+        ),
+        h3: ({ node, ...props }) => (
+          <h3 className="text-xl font-bold text-slate-800 mt-6 mb-3 leading-tight" {...props} />
+        ),
+        h4: ({ node, ...props }) => (
+          <h4 className="text-lg font-bold text-slate-800 mt-6 mb-3 leading-tight" {...props} />
+        ),
+        p: ({ node, ...props }) => (
+          <p className="text-base md:text-lg text-slate-600 leading-relaxed md:leading-loose mb-4" {...props} />
+        ),
+        ul: ({ node, ...props }) => (
+          <ul className="list-disc list-outside space-y-2 my-4 text-slate-600 pl-6" {...props} />
+        ),
+        ol: ({ node, ...props }) => (
+          <ol className="list-decimal list-outside space-y-2 my-4 text-slate-600 pl-6" {...props} />
+        ),
+        li: ({ node, ...props }) => (
+          <li className="mb-1 pl-2" {...props} />
+        ),
+        strong: ({ node, ...props }) => (
+          <strong className="font-bold text-slate-800" {...props} />
+        ),
+        em: ({ node, ...props }) => (
+          <em className="italic text-slate-700" {...props} />
+        ),
+        code: ({ node, inline, className, children, ...props }) => {
+          if (inline) {
+            return (
+              <code className="bg-slate-100 text-slate-800 px-2 py-1 rounded text-sm font-mono" {...props}>
+                {children}
+              </code>
+            );
+          }
+          return (
+            <SyntaxHighlighter
+              style={tomorrow}
+              language={className?.replace(/language-/, '') || 'text'}
+              PreTag="div"
+              className="my-4 rounded-lg overflow-x-auto"
+              {...props}
+            >
+              {String(children).replace(/\n$/, '')}
+            </SyntaxHighlighter>
+          );
+        },
+        table: ({ node, ...props }) => (
+          <div className="overflow-x-auto my-6">
+            <table className="min-w-full divide-y divide-slate-200 border border-slate-200 rounded-lg" {...props} />
+          </div>
+        ),
+        thead: ({ node, ...props }) => (
+          <thead className="bg-slate-50" {...props} />
+        ),
+        tbody: ({ node, ...props }) => (
+          <tbody className="bg-white divide-y divide-slate-200" {...props} />
+        ),
+        th: ({ node, ...props }) => (
+          <th className="px-6 py-3 text-left text-xs font-bold text-slate-600 uppercase tracking-wider border-b border-slate-200" {...props} />
+        ),
+        td: ({ node, ...props }) => (
+          <td className="px-6 py-4 text-sm text-slate-600 border-b border-slate-200" {...props} />
+        ),
+        tr: ({ node, ...props }) => {
+          const isLast = node.nextSibling === null;
+          return (
+            <tr className={`${isLast ? 'border-b-0' : ''}`} {...props} />
+          );
+        },
+        a: ({ node, ...props }) => (
+          <a className="text-indigo-600 hover:text-indigo-800 font-medium" {...props} />
+        ),
+        blockquote: ({ node, ...props }) => (
+          <blockquote className="border-l-4 border-indigo-400 pl-4 italic text-slate-600 my-4" {...props} />
+        ),
+        hr: ({ node, ...props }) => (
+          <hr className="border-slate-200 my-8" {...props} />
+        )
+      }}
+    >
+      {content}
+    </ReactMarkdown>
+  );
 };
 
 interface LessonViewerProps {
@@ -208,7 +203,7 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onComplete, onPrevi
         </div>
         
         <div className="prose prose-indigo max-w-none">
-          {parseMarkdown(lesson.content)}
+          <MarkdownRenderer content={lesson.content} />
         </div>
 
         {/* 专家寄语 */}
