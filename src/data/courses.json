@@ -1,0 +1,284 @@
+{
+  "courses": [
+    {
+      "lessonNumber": 1,
+      "stage": "股市通行证",
+      "title": "股票市场入门——认识你的投资工具"
+    },
+    {
+      "lessonNumber": 2,
+      "stage": "股市通行证",
+      "title": "交易机制详解：读懂游戏规则"
+    },
+    {
+      "lessonNumber": 3,
+      "stage": "股市通行证",
+      "title": "账户与权限：解锁你的投资能力"
+    },
+    {
+      "lessonNumber": 4,
+      "stage": "股市通行证",
+      "title": "费用结构全解析：别让手续费吃掉利润"
+    },
+    {
+      "lessonNumber": 5,
+      "stage": "股市通行证",
+      "title": "订单类型与执行：精准控制你的交易"
+    },
+    {
+      "lessonNumber": 6,
+      "stage": "股市通行证",
+      "title": "市场参与者：了解你的对手盘"
+    },
+    {
+      "lessonNumber": 7,
+      "stage": "股市通行证",
+      "title": "股票代码与命名：快速识别股票属性"
+    },
+    {
+      "lessonNumber": 8,
+      "stage": "股市通行证",
+      "title": "交易时间与休市：把握最佳交易时机"
+    },
+    {
+      "lessonNumber": 9,
+      "stage": "股市通行证",
+      "title": "退市规则：避开投资的“地雷区”"
+    },
+    {
+      "lessonNumber": 10,
+      "stage": "股市通行证",
+      "title": "股市术语速查：建立专业投资词汇库"
+    },
+    {
+      "lessonNumber": 11,
+      "stage": "财报门道",
+      "title": "财报基础：三大报表的核心逻辑"
+    },
+    {
+      "lessonNumber": 12,
+      "stage": "财报门道",
+      "title": "资产负债表：企业财务状况的快照"
+    },
+    {
+      "lessonNumber": 13,
+      "stage": "财报门道",
+      "title": "利润表：企业盈利能力的晴雨表"
+    },
+    {
+      "lessonNumber": 14,
+      "stage": "财报门道",
+      "title": "现金流量表：企业生命力的源泉"
+    },
+    {
+      "lessonNumber": 15,
+      "stage": "财报门道",
+      "title": "财务比率分析：透过数字看本质"
+    },
+    {
+      "lessonNumber": 16,
+      "stage": "财报门道",
+      "title": "财报真实性判断：识别财务造假"
+    },
+    {
+      "lessonNumber": 17,
+      "stage": "财报门道",
+      "title": "行业比较分析：寻找行业中的佼佼者"
+    },
+    {
+      "lessonNumber": 18,
+      "stage": "财报门道",
+      "title": "管理层讨论与分析：听管理层怎么说"
+    },
+    {
+      "lessonNumber": 19,
+      "stage": "财报门道",
+      "title": "财报附注：隐藏的重要信息"
+    },
+    {
+      "lessonNumber": 20,
+      "stage": "财报门道",
+      "title": "财报实战：如何快速分析一家公司"
+    },
+    {
+      "lessonNumber": 21,
+      "stage": "宏观与行业",
+      "title": "宏观经济指标：影响市场的大趋势"
+    },
+    {
+      "lessonNumber": 22,
+      "stage": "宏观与行业",
+      "title": "利率与股市：跷跷板效应解析"
+    },
+    {
+      "lessonNumber": 23,
+      "stage": "宏观与行业",
+      "title": "行业生命周期：选择处于上升期的行业"
+    },
+    {
+      "lessonNumber": 24,
+      "stage": "宏观与行业",
+      "title": "行业竞争格局：识别行业龙头"
+    },
+    {
+      "lessonNumber": 25,
+      "stage": "宏观与行业",
+      "title": "政策与股市：政策如何影响投资"
+    },
+    {
+      "lessonNumber": 26,
+      "stage": "宏观与行业",
+      "title": "全球市场联动：海外市场如何影响A股"
+    },
+    {
+      "lessonNumber": 27,
+      "stage": "实战技术课",
+      "title": "K线基础：蜡烛图的奥秘"
+    },
+    {
+      "lessonNumber": 28,
+      "stage": "实战技术课",
+      "title": "成交量分析：量价关系的核心逻辑"
+    },
+    {
+      "lessonNumber": 29,
+      "stage": "实战技术课",
+      "title": "移动平均线：趋势判断的利器"
+    },
+    {
+      "lessonNumber": 30,
+      "stage": "实战技术课",
+      "title": "MACD指标：把握市场趋势与动能"
+    },
+    {
+      "lessonNumber": 31,
+      "stage": "实战技术课",
+      "title": "KDJ指标：判断超买超卖"
+    },
+    {
+      "lessonNumber": 32,
+      "stage": "实战技术课",
+      "title": "RSI指标：相对强弱的秘密"
+    },
+    {
+      "lessonNumber": 33,
+      "stage": "实战技术课",
+      "title": "布林带：价格波动的轨道"
+    },
+    {
+      "lessonNumber": 34,
+      "stage": "实战技术课",
+      "title": "支撑位与阻力位：识别关键价格水平"
+    },
+    {
+      "lessonNumber": 35,
+      "stage": "实战技术课",
+      "title": "形态分析：识别市场反转信号"
+    },
+    {
+      "lessonNumber": 36,
+      "stage": "实战技术课",
+      "title": "波浪理论：理解市场的周期性波动"
+    },
+    {
+      "lessonNumber": 37,
+      "stage": "高级实战课",
+      "title": "价值投资：寻找被低估的优质公司"
+    },
+    {
+      "lessonNumber": 38,
+      "stage": "高级实战课",
+      "title": "成长投资：投资未来的明星企业"
+    },
+    {
+      "lessonNumber": 39,
+      "stage": "高级实战课",
+      "title": "趋势投资：顺势而为的艺术"
+    },
+    {
+      "lessonNumber": 40,
+      "stage": "高级实战课",
+      "title": "波段操作：把握中期市场机会"
+    },
+    {
+      "lessonNumber": 41,
+      "stage": "高级实战课",
+      "title": "短线交易：快速获利的技巧"
+    },
+    {
+      "lessonNumber": 42,
+      "stage": "高级实战课",
+      "title": "日内交易：当日了结的交易策略"
+    },
+    {
+      "lessonNumber": 43,
+      "stage": "风险管理",
+      "title": "风险类型：识别投资中的各种风险"
+    },
+    {
+      "lessonNumber": 44,
+      "stage": "风险管理",
+      "title": "风险评估：量化你的风险承受能力"
+    },
+    {
+      "lessonNumber": 45,
+      "stage": "风险管理",
+      "title": "止损策略：设定你的风险底线"
+    },
+    {
+      "lessonNumber": 46,
+      "stage": "风险管理",
+      "title": "止盈策略：锁定你的投资收益"
+    },
+    {
+      "lessonNumber": 47,
+      "stage": "风险管理",
+      "title": "仓位管理：控制你的投资节奏"
+    },
+    {
+      "lessonNumber": 48,
+      "stage": "基金与ETF投资",
+      "title": "基金基础：认识你的投资工具"
+    },
+    {
+      "lessonNumber": 49,
+      "stage": "基金与ETF投资",
+      "title": "指数基金：被动投资的艺术"
+    },
+    {
+      "lessonNumber": 50,
+      "stage": "基金与ETF投资",
+      "title": "ETF投资：灵活高效的指数投资工具"
+    },
+    {
+      "lessonNumber": 51,
+      "stage": "基金与ETF投资",
+      "title": "主动型基金：选择优秀的基金经理"
+    },
+    {
+      "lessonNumber": 52,
+      "stage": "基金与ETF投资",
+      "title": "基金组合构建：分散你的投资风险"
+    },
+    {
+      "lessonNumber": 53,
+      "stage": "交易系统构建",
+      "title": "交易系统的核心要素"
+    },
+    {
+      "lessonNumber": 54,
+      "stage": "交易系统构建",
+      "title": "入场规则：何时买入"
+    },
+    {
+      "lessonNumber": 55,
+      "stage": "交易系统构建",
+      "title": "出场规则：何时卖出"
+    },
+    {
+      "lessonNumber": 56,
+      "stage": "量化投资入门",
+      "title": "量化投资基础：用数据驱动投资决策"
+    }
+  ]
+}
